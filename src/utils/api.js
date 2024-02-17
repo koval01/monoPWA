@@ -1,5 +1,5 @@
 export const fetchData = async (endpoint, options = {}) => {
-    const { domain = import.meta.env.API_HOST } = options;
+    const { domain = import.meta.env.VITE_API_HOST } = options;
 
     if (!domain) throw new Error('Domain API is undefined');
 
