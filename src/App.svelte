@@ -7,7 +7,7 @@
   export let url = "";
 </script>
 
-<App theme="ios" dark={true} >
+<App theme="ios" class="select-none">
   <Router {url}>
     <div>
       <Route path="/"><Home /></Route>
