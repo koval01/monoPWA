@@ -10,6 +10,13 @@
       Link,
       Popover,
     } from 'konsta/svelte';
+    import { onMount } from 'svelte';
+    import { fetchData } from '../utils/api';
+
+    onMount(async () => {
+      console.log(import.meta.env.API_HOST)
+      console.log(fetchData("roll-in"))
+    })
   </script>
   
   <Page>
