@@ -11,19 +11,20 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'inline',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        cleanupOutdatedCaches: true
       },
       manifest: {
         "name": "MonoPWA",
         "short_name": "MonoPWA",
         "icons": [
             {
-                "src": "/icons/android-chrome-192x192.png?v=1",
+                "src": "/icons/android-chrome-192x192.png?v=2",
                 "sizes": "192x192",
                 "type": "image/png"
             },
             {
-                "src": "/icons/android-chrome-512x512.png?v=1",
+                "src": "/icons/android-chrome-512x512.png?v=2",
                 "sizes": "512x512",
                 "type": "image/png"
             }
