@@ -4,6 +4,10 @@
 
   import Home from './pages/Home.svelte';
 
+  window.addEventListener("contextmenu", function (e) {
+		import.meta.env.PROD ? e.preventDefault() : void 0;
+	});
+
   export let url = "";
 </script>
 
