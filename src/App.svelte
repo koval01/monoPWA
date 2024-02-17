@@ -11,6 +11,12 @@
   export let url = "";
 </script>
 
+<svelte:head>
+  {#if import.meta.env.CF_PAGES}
+    {@html `<!-- build ${import.meta.env.CF_PAGES_COMMIT_SHA} -->`}
+  {/if}
+</svelte:head>
+
 <App theme="ios" class="select-none">
   <Router {url}>
     <div>
