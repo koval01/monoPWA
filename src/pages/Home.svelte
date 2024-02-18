@@ -27,10 +27,12 @@
 
       if (response.error) return;
       if (!response.token) {
-        await waitExchange();
+        await waitExchange(); // repeat
       }
+
       if (typeof response.token === "string") {
         CookieManager.setCookie("session", response.token, 30);
+        session = CookieManager.getCookie("session"); // update if nothing before
       }
     }
 
@@ -38,22 +40,22 @@
       token = $rollInData.token;
       waitExchange();
     }
-  </script>
+</script>
   
   <Page>
-    <Navbar title="MonoPWA" large transparent centerTitle />
-  
     {#if session}
-    <Welcome />
+      <Welcome />
     {:else}
-    <Block class="mt-[4rem] mb-0">
-      <Block strong inset outline class="max-w-[600px] !m-auto !mb-6">
-        <p>
-          Для швидкого та безпечного входу, скористайтеся QR-кодом або натисніть на кнопку 
-          "Увійти за посилання", щоб авторизуватися за посиланням (потрібен додаток Monobank).
-        </p>
+      <Navbar title="MonoPWA" large transparent centerTitle />
+
+      <Block class="mt-[4rem] mb-0">
+        <Block strong inset outline class="max-w-[600px] !m-auto !mb-6">
+          <p>
+            Для швидкого та безпечного входу, скористайтеся QR-кодом або натисніть на кнопку 
+            "Увійти за посилання", щоб авторизуватися за посиланням (потрібен додаток Monobank).
+          </p>
+        </Block>
+        <RollIn />
       </Block>
-      <RollIn />
-    </Block>
     {/if}
 </Page>

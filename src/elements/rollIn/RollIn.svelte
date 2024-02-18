@@ -33,7 +33,8 @@
                 data.qr = url;
 
                 if (err) console.error(err);
-        });
+            }
+        );
     }
 
     onMount(async () => {
