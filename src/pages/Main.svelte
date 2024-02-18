@@ -46,7 +46,7 @@
     {#if session}
       <Welcome />
     {:else}
-      <Navbar title="MonoPWA" large transparent centerTitle />
+      <Navbar title="MonoBank PWA" large transparent centerTitle />
 
       <Block class="mt-[4rem] mb-0">
         <Block strong inset outline class="max-w-[600px] !m-auto !mb-6">
