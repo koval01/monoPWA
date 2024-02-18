@@ -10,7 +10,7 @@
         <Block inset class="w-max !m-auto !mb-3">
             Отримуємо дані для авторизації...
         </Block>
-        <Preloader class="!block m-auto" />
+        <Preloader class="!block m-auto mt-4" />
     {:else}
         <img src="/images/cat/cat-thinks.webp" class="m-auto max-h-[400px]" draggable="false" alt="Що ж таке..." />
         <Block inset class="w-max !m-auto !mb-3">

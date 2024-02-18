@@ -1,5 +1,5 @@
 <script>
-    import { Block, Button } from "konsta/svelte";
+    import { Block, Button, Preloader } from "konsta/svelte";
 
     const delayOnCall = async () => {
         return onCall();
@@ -14,6 +14,7 @@
         <Block inset class="w-max !m-auto !mb-3 !mt-[3rem]">
             Один момент! Зараз все буде.
         </Block>
+        <Preloader class="!block m-auto mt-4" />
     {:else}
         <img src="/images/cat/cat-collect.webp" draggable="false" class="m-auto" alt="Що це може бути..." />
         <Block inset class="w-max !m-auto !mb-3">
