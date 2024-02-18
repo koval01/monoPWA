@@ -6,13 +6,13 @@
 
 <div>
     {#if success === void 0}
-        <img src="/images/cat/matrix.webp" class="m-auto max-h-[400px] matrix-cat" alt="Кіт очікує теж..." />
+        <img src="/images/cat/matrix.webp" class="m-auto max-h-[400px] matrix-cat" draggable="false" alt="Кіт очікує теж..." />
         <Block inset class="w-max !m-auto !mb-3">
             Отримуємо дані для авторизації...
         </Block>
         <Preloader class="!block m-auto" />
     {:else}
-        <img src="/images/cat/cat-thinks.webp" class="m-auto max-h-[400px]" alt="Що ж таке..." />
+        <img src="/images/cat/cat-thinks.webp" class="m-auto max-h-[400px]" draggable="false" alt="Що ж таке..." />
         <Block inset class="w-max !m-auto !mb-3">
             От халепа... Давай спробуємо ще раз.
         </Block>
