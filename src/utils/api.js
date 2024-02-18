@@ -15,18 +15,20 @@ export const fetchData = async (endpoint, options = {}) => {
         const res = await fetch(`https://${domain}/${endpoint}`, {
             headers,
         });
+
         if (!res.ok) {
             throw new Error('Network response was not ok');
         }
  
         let data = await res.json();
+
         if (!data) {
             throw new Error('Server response was not ok');
         }
 
-        return data;
+        return { success: true, data: data };
     } catch (error) {
         console.error('Error fetching data:', error.message);
-        throw error;
+        return { success: false, error: error.message };
     }
 };
