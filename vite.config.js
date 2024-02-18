@@ -35,4 +35,15 @@ export default defineConfig({
       }    
     })
   ],
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      ecma: 5,
+      compress: {
+        unsafe: true,
+        drop_console: true,
+        booleans_as_integers: true
+      }
+    }
+  }
 })
