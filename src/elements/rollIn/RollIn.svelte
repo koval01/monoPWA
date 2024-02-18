@@ -8,6 +8,8 @@
     import RollWait from "./RollWait.svelte";
     import { Button } from "konsta/svelte";
 
+    import { rollInData } from "../../store";
+
     let data, success;
 
     const getQR = async () => {
@@ -16,6 +18,8 @@
         success = response.success;
 
         if (!data) return;
+
+        rollInData.set({ token: data.token, loading: false });
 
         QRCode.toDataURL(
             data.url, { 

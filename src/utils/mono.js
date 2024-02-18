@@ -1,4 +1,5 @@
 import { fetchData } from "./api";
+import { CookieManager } from "./cookies";
 
 export class MonoAPI {
     static async checkProto() {
@@ -23,7 +24,7 @@ export class MonoAPI {
 
     static async exchangeToken(token) {
         try {
-            const response = await fetchData('exchange-token', { token });
+            const response = await fetchData('exchange-token', { method: "POST", payload: { token: token } });
             return response;
         } catch (error) {
             console.error('Error exchanging token:', error.message);
@@ -33,7 +34,7 @@ export class MonoAPI {
 
     static async clientInfo() {
         try {
-            const response = await fetchData('request/personal/client-info', { token: localStorage.getItem("token") });
+            const response = await fetchData('request/personal/client-info', { token: CookieManager.getCookie("session") });
             return response;
         } catch (error) {
             console.error('Error retrieving client information:', error.message);
