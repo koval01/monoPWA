@@ -2,29 +2,22 @@
     import {
       Page,
       Navbar,
-      BlockTitle,
-      Preloader,
       Block
-
     } from 'konsta/svelte';
-    import { onMount } from 'svelte';
-    import { fetchData } from '../utils/api';
 
-    let data;
-    onMount(async () => {
-      data = await fetchData("roll-in");
-    })
+    import RollIn from '../elements/RollIn.svelte';
   </script>
   
   <Page>
     <Navbar title="MonoPWA" large transparent centerTitle />
   
-    <BlockTitle>QR Code</BlockTitle>
-    <Block strong inset>
-      {#if data}
-      <img src={`data:image/png;base64,${data?.qr}`} alt="QR" />
-      {:else}
-      <Preloader />
-      {/if}
+    <Block class="mt-[6rem]">
+      <Block strong inset outline class="max-w-[600px] !m-auto !mb-6">
+        <p>
+          Для швидкого та безпечного входу, скористайтеся QR-кодом або натисніть на кнопку 
+          "Увійти за посилання", щоб авторизуватися за посиланням (потрібен додаток Monobank).
+        </p>
+      </Block>
+      <RollIn />
     </Block>
-  </Page>
+</Page>
