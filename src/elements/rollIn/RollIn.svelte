@@ -51,7 +51,7 @@
         <img src={data?.qr} class="w-max m-auto rounded-lg" draggable="false" alt="QR" />
     </div>
     <div class="mt-3">
-        <Button onClick={goLogin} class="w-max m-auto" clear>Увійти за посилання</Button>
+        <Button onClick={goLogin} class="w-max m-auto" clear>Увійти за посиланням</Button>
     </div>
 {:else}
     <RollWait success={success} onCall={goRetry} />
