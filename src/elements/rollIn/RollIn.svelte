@@ -37,18 +37,14 @@
         );
     }
 
-    onMount(async () => {
-        await getQR();
-    });
-
     const goRetry = () => {
         success = void 0;
         getQR();
     }
+    
+    onMount(async () => await getQR());
 
-    const goLogin = () => {
-        window.open(data?.url, "_blank");
-    }
+    const goLogin = () => window.open(data?.url, "_blank");
 </script>
 
 {#if data}

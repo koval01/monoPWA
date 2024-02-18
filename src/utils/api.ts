@@ -1,9 +1,22 @@
-export const fetchData = async (endpoint, options = {}) => {
+interface RequestOptions {
+    domain?: string;
+    token?: string;
+    method?: string;
+    payload?: Record<string, any>;
+}
+
+interface FetchResponse {
+    success: boolean;
+    data?: any;
+    error?: string;
+}
+
+export const fetchData = async (endpoint: string, options: RequestOptions = {}): Promise<FetchResponse> => {
     const { domain = import.meta.env.VITE_API_HOST, token: authToken, method = 'GET', payload } = options;
 
     if (!domain) throw new Error('Domain API is undefined');
 
-    const headers = {};
+    const headers: Record<string, string> = {};
 
     if (authToken) {
         headers['X-Request-Id'] = authToken;
@@ -11,7 +24,7 @@ export const fetchData = async (endpoint, options = {}) => {
 
     try {
         const url = `https://${domain}/${endpoint}`;
-        const fetchOptions = {
+        const fetchOptions: RequestInit = {
             method,
             headers,
         };
@@ -19,22 +32,22 @@ export const fetchData = async (endpoint, options = {}) => {
         if (method === 'POST' && payload) {
             const formData = new FormData();
 
-            // Додати дані у форматі FormData
             for (const key in payload) {
-                formData.append(key, payload[key]);
+                if (Object.prototype.hasOwnProperty.call(payload, key)) {
+                    formData.append(key, payload[key]);
+                }
             }
 
             fetchOptions.body = formData;
         }
 
-        // @ts-ignore
         const res = await fetch(url, fetchOptions);
 
         if (!res.ok) {
             throw new Error('Network response was not ok');
         }
- 
-        let data = await res.json();
+
+        const data = await res.json();
 
         if (!data) {
             throw new Error('Server response was not ok');

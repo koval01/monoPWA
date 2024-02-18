@@ -4,10 +4,6 @@
 
   import Main from './pages/Main.svelte';
 
-  window.addEventListener("contextmenu", function (e) {
-		import.meta.env.PROD ? e.preventDefault() : void 0;
-	});
-
   export let url = "";
 </script>
 

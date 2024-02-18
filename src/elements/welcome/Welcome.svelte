@@ -3,7 +3,9 @@
 
     import { onMount } from 'svelte';
     import { MonoAPI } from '../../utils/mono';
+
     import Wait from './Wait.svelte';
+    import Currency from './Currency.svelte';
 
     let client, success;
 
@@ -18,13 +20,12 @@
         getClient();
     }
 
-    onMount(async () => {
-        await getClient();
-    })
+    onMount(async () => await getClient())
 </script>
 
 {#if client}
     <Navbar title={`Привіт, ${client?.name.split(" ").slice(-1)}`} large transparent centerTitle />
+    <Currency />
     <Block inset outline>
         <pre>
             {JSON.stringify(client, null, 4)}

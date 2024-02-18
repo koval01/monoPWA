@@ -8,42 +8,21 @@
     import RollIn from '../elements/rollIn/RollIn.svelte';
     import Welcome from '../elements/welcome/Welcome.svelte';
 
-    import { MonoAPI } from '../utils/mono';
-    import { rollInData } from '../store';
-    import { CookieManager } from '../utils/cookies'
+    import { rollInData, session } from '../store';
+    import { waitExchange } from '../utils/exchange';
+    import { CookieManager } from '../utils/cookies';
 
-    let token, waitExchangeCalled;
-    let session = CookieManager.getCookie("session");
-
-    const waitExchange = async () => {
-      if (!token || waitExchangeCalled || session) return;
-      waitExchangeCalled = true;
-
-      let response;
-      response = await MonoAPI.exchangeToken(token);
-      response = response.data;
-
-      waitExchangeCalled = false;
-
-      if (response.error) return;
-      if (!response.token) {
-        await waitExchange(); // repeat
-      }
-
-      if (typeof response.token === "string") {
-        CookieManager.setCookie("session", response.token, 30);
-        session = CookieManager.getCookie("session"); // update if nothing before
-      }
-    }
+    let token;
+    let sessionValue = CookieManager.getCookie("session");
 
     $: {
       token = $rollInData.token;
-      waitExchange();
+      waitExchange(token);
     }
 </script>
   
-  <Page>
-    {#if session}
+<Page>
+    {#if $session || sessionValue}
       <Welcome />
     {:else}
       <Navbar title="MonoBank PWA" large transparent centerTitle />
