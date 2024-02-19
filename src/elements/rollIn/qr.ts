@@ -2,27 +2,27 @@ import { MonoAPI } from '../../utils/mono';
 import { rollInData } from "../../store";
 import QRCode from "qrcode";
 
-interface RollInResponse {
+interface RollInResponseData {
+    token: string;
+    url: string;
+    qr: string;
+}
+
+interface QRRollInResponse {
     success: boolean;
-    data?: {
-        token: string;
-        url: string;
-        qr?: string;
-    };
+    data?: RollInResponseData;
 }
 
 export const getQR = async () => {
     try {
-        const response: RollInResponse = await MonoAPI.rollIn();
+        const response: QRRollInResponse = await MonoAPI.rollIn();
         const { data, success } = response;
 
         if (!success || !data) {
             throw new Error('Failed to retrieve roll-in data');
         }
 
-        rollInData.set({ token: data.token, loading: false });
-
-        const url: string = await new Promise((resolve, reject) => {
+        const QRcode: string = await new Promise((resolve, reject) => {
             QRCode.toDataURL(
                 data.url, { 
                     margin: 0, 
@@ -43,12 +43,17 @@ export const getQR = async () => {
             );
         });
 
-        if (url) {
-            data.qr = url;
+        if (QRcode) {
+            data.qr = QRcode;
         } else {
             throw new Error('Failed to generate QR code URL');
         }
+
+        rollInData.set({ ...data, loading: false });
+
+        return true;
     } catch (error) {
         console.error('Error while getting QR code:', error.message);
+        return false;
     }
 }

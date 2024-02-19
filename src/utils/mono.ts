@@ -18,7 +18,7 @@ interface RollInResponse {
     token: string;
     requestId: string;
     url: string;
-    qr?: string;
+    qr: string;
 }
 
 interface CheckProtoResponse {

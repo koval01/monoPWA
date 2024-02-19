@@ -1,10 +1,19 @@
 <script>
     import { Block, Preloader } from "konsta/svelte";
+    import { afterUpdate } from 'svelte';
+
+    let isLevitating = false;
+
+    afterUpdate(() => {
+        setTimeout(() => {
+            isLevitating = true;
+        }, 300);
+    });
 </script>
 
 <img 
     src="/images/cat/matrix.webp" 
-    class="m-auto max-h-[400px] matrix-cat" 
+    class="m-auto max-h-[400px] {isLevitating ? 'leviation' : ''}" 
     draggable="false" 
     alt="Кіт очікує теж..." 
 />
@@ -26,10 +35,6 @@
             transform: translate3d(0, 0, 0);
         }
     }
-    .matrix-cat {
-        animation: CatLevitation 4s cubic-bezier(.5, .27, .37, .88) infinite;
-    }
-
     @keyframes scaleCat {
         0% { transform: scale(.5) }
         80% { transform: scale(1.05) }
@@ -38,6 +43,9 @@
     img {
         transform: scale(.5);
         animation: scaleCat .3s ease forwards;
+    }
+    .leviation {
+        animation: CatLevitation 4s cubic-bezier(.5, .27, .37, .88) infinite
     }
 
 </style>

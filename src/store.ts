@@ -2,11 +2,15 @@ import { writable } from 'svelte/store';
 
 interface RollInData {
     token: string | null;
+    url: string | null;
+    qr: string | null;
     loading: boolean;
 }
 
 const rollIn: RollInData = {
     token: null,
+    url: null,
+    qr: null,
     loading: true
 };
 export const rollInData = writable(rollIn);

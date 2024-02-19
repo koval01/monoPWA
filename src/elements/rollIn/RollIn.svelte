@@ -1,26 +1,33 @@
 <script>
     import { onMount } from "svelte";
+    import { rollInData } from "../../store";
     import { getQR } from './qr';
 
     import RollWait from "./RollWait.svelte";
     import { Button } from "konsta/svelte";
 
-    let data, success;
+    let success;
+
+    const updateQR = async () => {
+        success = await getQR();
+    }
+
+    onMount(async () => {
+        await updateQR();
+    });
 
     const goRetry = () => {
         success = void 0;
-        getQR();
+        updateQR();
     }
-    
-    onMount(async () => await getQR());
 
-    const goLogin = () => window.open(data?.url, "_blank");
+    const goLogin = () => window.open($rollInData?.url, "_blank");
 </script>
 
-{#if data}
+{#if $rollInData.loading === false}
     <div class="m-auto w-auto">
         <img 
-            src={data?.qr} 
+            src={$rollInData?.qr} 
             class="w-max m-auto rounded-lg" 
             draggable="false" 
             alt="QR-код для авторизації" 
