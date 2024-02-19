@@ -1,18 +1,18 @@
-<script>
+<script lang="ts">
     import { Navbar, Block } from 'konsta/svelte';
 
     import { onMount } from 'svelte';
-    import { MonoAPI } from '../../utils/mono';
+    import { MonoAPI, type FetchResponse, type ClientInfoResponse } from '../../utils/mono';
 
     import Wait from './Wait.svelte';
     import Currency from './Currency.svelte';
 
-    let client, success;
+    let client: ClientInfoResponse, success: boolean;
 
     const getClient = async () => {
-        client = await MonoAPI.clientInfo();
-        success = client.success;
-        client = client.data;
+        const _client = await MonoAPI.clientInfo();
+        success = _client.success;
+        client = _client.data;
     }
 
     const goRetry = () => {
@@ -20,11 +20,15 @@
         getClient();
     }
 
+    const clientName = (client: ClientInfoResponse): string => {
+        return client?.name.split(" ").pop() ?? 'Незнайомець';
+    };
+
     onMount(async () => await getClient())
 </script>
 
 {#if client}
-    <Navbar title={`Привіт, ${client?.name.split(" ").slice(-1)}`} large transparent centerTitle />
+    <Navbar title={`Привіт, ${ clientName(client) }`} large transparent centerTitle />
     <Currency />
     <Block inset outline>
         <pre>

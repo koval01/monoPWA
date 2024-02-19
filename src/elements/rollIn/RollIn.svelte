@@ -1,41 +1,11 @@
 <script>
-    // @ts-nocheck
-
     import { onMount } from "svelte";
-    import { MonoAPI } from "../../utils/mono";
-    import QRCode from "qrcode";
+    import { getQR } from './qr';
 
     import RollWait from "./RollWait.svelte";
     import { Button } from "konsta/svelte";
 
-    import { rollInData } from "../../store";
-
     let data, success;
-
-    const getQR = async () => {
-        const response = await MonoAPI.rollIn();
-        data = response.success ? response.data : void 0;
-        success = response.success;
-
-        if (!data) return;
-
-        rollInData.set({ token: data.token, loading: false });
-
-        QRCode.toDataURL(
-            data.url, { 
-                margin: 0, 
-                scale: 8, 
-                color: { 
-                    dark: "#ffffff", 
-                    light: "#00000000" 
-                } 
-            }, function (/** @type {any} */ err, /** @type {any} */ url) {
-                data.qr = url;
-
-                if (err) console.error(err);
-            }
-        );
-    }
 
     const goRetry = () => {
         success = void 0;
@@ -49,7 +19,12 @@
 
 {#if data}
     <div class="m-auto w-auto">
-        <img src={data?.qr} class="w-max m-auto rounded-lg" draggable="false" alt="QR" />
+        <img 
+            src={data?.qr} 
+            class="w-max m-auto rounded-lg" 
+            draggable="false" 
+            alt="QR-код для авторизації" 
+        />
     </div>
     <div class="mt-3">
         <Button onClick={goLogin} class="w-max m-auto" clear>Увійти за посиланням</Button>
