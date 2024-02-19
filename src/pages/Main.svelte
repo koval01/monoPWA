@@ -9,7 +9,7 @@
     import Welcome from '../elements/welcome/Welcome.svelte';
 
     import { rollInData, session } from '../store';
-    import { waitExchange } from '../utils/exchange';
+    import { exchangeProcess } from '../utils/exchange';
     import { CookieManager } from '../utils/cookies';
 
     let token;
@@ -17,7 +17,7 @@
 
     $: {
       token = $rollInData.token;
-      waitExchange(token);
+      exchangeProcess(token);
     }
 </script>
   

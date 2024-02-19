@@ -1,5 +1,5 @@
 import { CookieManager } from './cookies';
-import { session } from '../store';
+import { session, rollInData, rollIn } from '../store';
 import { MonoAPI } from './mono'; 
 
 interface Response {
@@ -11,7 +11,7 @@ interface Response {
 
 let waitExchangeCalled: boolean;
 
-export const waitExchange = async (token: string) => {
+const waitExchange = async (token: string): Promise<boolean|void> => {
     let sessionValue: string;
     session.subscribe((v) => sessionValue = v);
     
@@ -25,13 +25,24 @@ export const waitExchange = async (token: string) => {
 
     waitExchangeCalled = false;
 
-    if (response.error) return;
+    if (!response) return false;
+    if (response.error) return false;
     if (!response.token) {
-      await waitExchange(token); // repeat
+      return await waitExchange(token); // repeat
     }
 
     if (typeof response.token === "string") {
       CookieManager.setCookie("session", response.token, 30);
       session.set(CookieManager.getCookie("session"));
     }
+
+    return true;
+}
+
+export const exchangeProcess = async (token: string) => {
+  const exchange = await waitExchange(token);
+  if (exchange === false) {
+    rollInData.set(rollIn);
+    console.log("Reset preauth token");
+  }
 }

@@ -7,7 +7,7 @@ interface RollInData {
     loading: boolean;
 }
 
-const rollIn: RollInData = {
+export const rollIn: RollInData = {
     token: null,
     url: null,
     qr: null,
