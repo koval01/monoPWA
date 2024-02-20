@@ -1,4 +1,5 @@
 import { fetchData } from "./api";
+import { cacheData, getCacheData } from "./cache";
 import { CookieManager } from "./cookies";
 
 interface RequestOptions {
@@ -65,8 +66,8 @@ export interface ClientInfoResponse {
 }
 
 interface CurrencyInfo {
-    currencyCodeA: number;
-    currencyCodeB: number;
+    currencyCodeA?: number;
+    currencyCodeB?: number;
     date: number;
     rateBuy?: number;
     rateSell?: number;
@@ -100,7 +101,14 @@ export class MonoAPI {
     static async clientInfo(): Promise<FetchResponse<ClientInfoResponse>> {
         const token = CookieManager.getCookie("session");
         if (token) {
-            return this.makeRequest('request/personal/client-info', { token });
+            const cacheClient = await getCacheData('cacheClient', 10);
+            if (cacheClient) return cacheClient;
+            
+            const response = await this.makeRequest('request/personal/client-info', { token });
+            if (response.error || !response.data) return { success: false };
+            await cacheData('cacheClient', response);
+
+            return response;
         } else {
             throw new Error('Session token is not available');
         }

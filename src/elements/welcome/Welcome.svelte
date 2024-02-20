@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { Navbar, Block } from 'konsta/svelte';
+    import { Navbar } from 'konsta/svelte';
 
     import { onMount } from 'svelte';
-    import { MonoAPI, type FetchResponse, type ClientInfoResponse } from '../../utils/mono';
+    import { MonoAPI, type ClientInfoResponse } from '../../utils/mono';
 
     import Wait from './Wait.svelte';
-    import Currency from './Currency.svelte';
+    import Currency from '../currency/Currency.svelte';
+    import Card from '../card/Card.svelte';
+    import Tab from './Tab.svelte';
 
     let client: ClientInfoResponse, success: boolean;
 
@@ -25,16 +27,18 @@
     };
 
     onMount(async () => await getClient())
+
+    $: {
+        console.log(client);
+    }
 </script>
 
 {#if client}
     <Navbar title={`Привіт, ${ clientName(client) }`} large transparent centerTitle />
+    <Card client={client} />
     <Currency />
-    <Block inset outline>
-        <pre>
-            {JSON.stringify(client, null, 4)}
-        </pre>
-    </Block>
+
+    <Tab />
 {:else}
     <Wait success={success} onCall={goRetry} />
 {/if}

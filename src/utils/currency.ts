@@ -1,5 +1,6 @@
 import { MonoAPIExtended } from "./mono";
 import { currencyData } from "../store";
+import { cacheData, getCacheData } from "./cache";
 
 const currencyCode = {840: "Долар", 978: "Євро"};
 
@@ -32,16 +33,10 @@ const dataTransformer = (data: Partial<CurrencyArray>[]) => data.map(item => {
 });
 
 export const getData = async (): Promise<void> => {
-    // Перевіряємо, чи є дані в кеші
-    const cachedResponse = await caches.match('currencyData');
-    if (cachedResponse) {
-        const cachedData = await cachedResponse.json();
-        // Перевіряємо, чи дані є валідні
-        const currentTime = new Date().getTime();
-        if (cachedData && cachedData.timestamp && (currentTime - cachedData.timestamp) < 60000) {
-            currencyData.set({ currency: cachedData.currency, loading: false });
-            return;
-        }
+    const cacheCurrency = await getCacheData('currencyData', 60);
+    if (cacheCurrency) {
+        currencyData.set({ currency: cacheCurrency, loading: false });
+        return;
     }
 
     // Якщо кешування не вдалося, робимо запит до сервера
@@ -50,12 +45,10 @@ export const getData = async (): Promise<void> => {
 
     if (!data.length) return;
     data = data.slice(0, 3);
+    data = dataTransformer(data);
 
     // Записуємо результат запиту у кеш
-    const dataToCache = { currency: dataTransformer(data), loading: false, timestamp: new Date().getTime() };
-    caches.open('currencyData').then(cache => {
-        cache.put('currencyData', new Response(JSON.stringify(dataToCache)));
-    });
+    await cacheData('currencyData', data);
 
-    currencyData.set(dataToCache);
+    currencyData.set({ currency: data, loading: false });
 };

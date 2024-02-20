@@ -20,6 +20,7 @@
     "vite-plugin-pwa": "^0.19.0"
   },
   "dependencies": {
+    "cyrillic-to-translit-js": "^3.2.1",
     "dotenv": "^16.4.4",
     "konsta": "^3.1.2",
     "qrcode": "^1.5.3",
