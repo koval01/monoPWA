@@ -6,7 +6,7 @@
     import { getCacheData } from "../../../utils/cache";
 
     const clientNameFormat = (name: string): string => {
-        name = name.split(" ").pop() ?? 'Незнайомець';
+        name = name?.split(" ").pop() ?? 'Незнайомець';
         return generateGreeting(name);
     };
 
