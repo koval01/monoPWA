@@ -3,6 +3,7 @@
   import { Router, Route } from "svelte-routing";
 
   import Main from './pages/Main.svelte';
+  import NoMatch from './pages/NoMatch.svelte';
 
   export let url = "";
 </script>
@@ -11,6 +12,7 @@
   <Router {url}>
     <div>
       <Route path="/"><Main /></Route>
+      <Route patth="*"><NoMatch /></Route>
     </div>
   </Router>
 </App>
