@@ -1,7 +1,16 @@
-<script>
+<script lang="ts">
     import { Block, Preloader } from "konsta/svelte";
-    import { afterUpdate } from "svelte";
+    import { afterUpdate, onMount } from "svelte";
 
+    import { generateGreeting } from "../../../utils/time";
+    import { getCacheData } from "../../../utils/cache";
+
+    const clientNameFormat = (name: string): string => {
+        name = name.split(" ").pop() ?? 'Незнайомець';
+        return generateGreeting(name);
+    };
+
+    let clientName = "";
     let isPulsing = false;
 
     afterUpdate(() => {
@@ -9,6 +18,10 @@
             isPulsing = true;
         }, 300);
     });
+
+    onMount(async () => {
+        clientName = await getCacheData("cacheClientName");
+    })
 </script>
 
 <img 
@@ -18,7 +31,9 @@
     alt="Ще трохи..." 
 />
 
-<Block inset class="w-max !m-auto !mb-3 !mt-[3rem]">
+<Block inset class="w-max !m-auto !mb-3 !mt-[3rem] text-center">
+    { clientNameFormat(clientName) }
+    <br />
     Один момент! Зараз все буде.
 </Block>
 <Preloader class="!block m-auto mt-4" />

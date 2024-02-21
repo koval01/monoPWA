@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { Navbar } from 'konsta/svelte';
-
     import { onMount } from 'svelte';
     import { MonoAPI, type ClientInfoResponse } from '../../utils/mono';
 
@@ -22,10 +20,6 @@
         getClient();
     }
 
-    const clientName = (client: ClientInfoResponse): string => {
-        return client?.name.split(" ").pop() ?? 'Незнайомець';
-    };
-
     onMount(async () => await getClient())
 
     $: {
@@ -34,7 +28,6 @@
 </script>
 
 {#if client}
-    <Navbar title={`Привіт, ${ clientName(client) }`} large transparent centerTitle />
     <Card client={client} />
     <Currency />
 

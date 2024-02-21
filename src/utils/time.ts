@@ -70,3 +70,20 @@ export const formatTimeAgo = (unixTime: number, adjustTimezone = true, ago = fal
         }
     }
 };
+
+export const generateGreeting = (name: string) => {
+    const hour = new Date().getHours();
+    let greeting = '';
+    
+    if (hour >= 6 && hour < 12) {
+        greeting = 'Доброго ранку';
+    } else if (hour >= 12 && hour < 18) {
+        greeting = 'Добрий день';
+    } else if (hour >= 18 && hour < 24) {
+        greeting = 'Добрий вечір';
+    } else {
+        greeting = 'Доброї ночі';
+    }
+    
+    return `${greeting}, ${name}`;
+}

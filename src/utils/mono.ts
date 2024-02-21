@@ -108,6 +108,13 @@ export class MonoAPI {
             if (response.error || !response.data) return { success: false };
             await cacheData('cacheClient', response);
 
+            // Зберігаємо у довгостроковий кеш ім'я власника акаунту
+            const cacheClientName = await getCacheData('cacheClientName');
+            const respClientName = response?.data?.name;
+            if (cacheClientName !== respClientName) {
+                await cacheData('cacheClientName', respClientName);
+            }
+
             return response;
         } else {
             throw new Error('Session token is not available');

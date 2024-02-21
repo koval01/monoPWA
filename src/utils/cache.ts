@@ -9,7 +9,7 @@ export const cacheData = async (key: string, data: any) => {
     cache.put(key, new Response(JSON.stringify(dataToCache)));
 };
 
-export const getCacheData = async (key: string, seconds: number) => {
+export const getCacheData = async (key: string, seconds: number = Infinity) => {
     const cachedResponse = await caches.match(key);
     if (!cachedResponse) return;
 
