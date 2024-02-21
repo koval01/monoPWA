@@ -29,3 +29,5 @@ const currency: CurrencyData = {
 export const currencyData = writable(currency);
 
 export const session = writable<string | null>(null);
+
+export const exchangeState = writable<boolean>(false);

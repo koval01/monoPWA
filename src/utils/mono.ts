@@ -1,4 +1,5 @@
 import { fetchData } from "./api";
+import { exchangeState } from "../store";
 import { cacheData, getCacheData } from "./cache";
 import { CookieManager } from "./cookies";
 
@@ -95,6 +96,11 @@ export class MonoAPI {
     }
 
     static async exchangeToken(token: string): Promise<FetchResponse<TokenExchangeResponse>> {
+        let state: boolean;
+        exchangeState.subscribe((v) => state = v);
+
+        if (state) return;
+
         const resp = await this.makeRequest(
             'exchange-token', 
             { 
@@ -106,6 +112,8 @@ export class MonoAPI {
         if (resp?.data.token) {
             await this.clientInfo(resp.data.token);
         }
+
+        exchangeState.set(false);
         return resp;
     }
 

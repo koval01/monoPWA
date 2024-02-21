@@ -12,7 +12,7 @@ interface Response {
 let waitExchangeCalled: boolean;
 
 const waitExchange = async (token: string): Promise<boolean|void> => {
-    let sessionValue: string;
+    let sessionValue: string|null = "";
     session.subscribe((v) => sessionValue = v);
     
     if (!token || waitExchangeCalled || sessionValue) return;
@@ -21,7 +21,7 @@ const waitExchange = async (token: string): Promise<boolean|void> => {
 
     let response: Response;
     response = await MonoAPI.exchangeToken(token);
-    response = response.data;
+    response = response?.data;
 
     waitExchangeCalled = false;
 
