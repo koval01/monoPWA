@@ -109,7 +109,7 @@ export class MonoAPI {
             }
         );
 
-        if (resp?.data.token) {
+        if (resp?.data?.token) {
             await this.clientInfo(resp.data.token);
         }
 
