@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { rollInData } from "../../store";
     import { getQR } from './qr';
+    import { triggerAppOpen } from '../../utils/monoLink';
 
     import RollWait from "./RollWait.svelte";
     import { Button } from "konsta/svelte";
@@ -19,6 +20,10 @@
     const goRetry = () => {
         success = void 0;
         updateQR();
+    }
+
+    $: {
+        if ($rollInData?.requestId) triggerAppOpen($rollInData?.requestId);
     }
 
     const goLogin = () => window.open($rollInData?.url, "_blank");
