@@ -1,21 +1,25 @@
 <script>
     import { afterUpdate } from "svelte";
 
-    import CyrillicToTranslit from 'cyrillic-to-translit-js';
-    import { getCardType } from '../../utils/card';
-    
-    const translate = (input) => CyrillicToTranslit({ preset: "uk" }).transform(input);
+    import CyrillicToTranslit from "cyrillic-to-translit-js";
+    import { getCardType } from "../../utils/card";
+
+    const translate = (/** @type {string} */ input) =>
+        CyrillicToTranslit({ preset: "uk" }).transform(input);
 
     let accountNumber;
-    const account = (client) => accountNumber = (client.accounts).find(x => x.type === "black" && x.currencyCode === 980).maskedPan[0];
-
+    const account = (/** @type {{ accounts: any; }} */ client) =>
+        (accountNumber = client.accounts.find(
+            (/** @type {{ type: string; currencyCode: number; }} */ x) =>
+                x.type === "black" && x.currencyCode === 980,
+        ).maskedPan[0]);
 
     let cardActive = false;
 
     afterUpdate(() => {
-        cardActive = true;
-
         account(client);
+
+        setTimeout(() => (cardActive = true), 2e2);
     });
 
     export let client;
@@ -25,10 +29,20 @@
 
 <div class="max-w-[480px] m-auto py-10 px-8">
     <div class="card black {cardActive ? 'active' : ''}">
-        <img src="/images/monologo.webp" class="logo bank invert" alt="Логотип на картці" />
-        <img src="/images/payment-system/{getCardType(accountNumber)}-logo.webp" class="logo system" alt="Платіжна система" />
-        <div class="display name">{ translate(client.name) }</div>
-        <div class="display card-number">{ accountNumber?.match(/.{1,4}/g)?.join(" ") }</div>
+        <img
+            src="/images/monologo.webp"
+            class="logo bank invert"
+            alt="Логотип на картці"
+        />
+        <img
+            src="/images/payment-system/{getCardType(accountNumber)}-logo.webp"
+            class="logo system"
+            alt="Платіжна система"
+        />
+        <div class="display name">{translate(client.name)}</div>
+        <div class="display card-number">
+            {accountNumber?.match(/.{1,4}/g)?.join(" ")}
+        </div>
         <div class="display currency-symbol">₴</div>
     </div>
 </div>
@@ -36,11 +50,11 @@
 <style>
     .card {
         position: relative;
-        background: rgb(11,11,11);
+        background: rgb(11, 11, 11);
         border-radius: 1.3rem;
         overflow: hidden;
         filter: drop-shadow(30px 10px 24px #000);
-        transform: perspective(580px) rotateX(60deg) scale(.8);
+        transform: perspective(580px) rotateX(60deg) scale(.75);
         transition: 1s cubic-bezier(.5, .07, .1, .9) all;
         max-width: 100%;
         height: auto;
@@ -79,7 +93,7 @@
     }
 
     .display {
-        font-family: 'Kode Mono';
+        font-family: "Kode Mono";
         font-weight: 400;
         position: absolute;
         color: #b2b3b7;
@@ -99,7 +113,7 @@
     .currency-symbol {
         top: 10%;
         right: 6%;
-        color: #444
+        color: #444;
     }
 
     @media only screen and (max-width: 768px) {

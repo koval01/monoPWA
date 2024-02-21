@@ -95,11 +95,22 @@ export class MonoAPI {
     }
 
     static async exchangeToken(token: string): Promise<FetchResponse<TokenExchangeResponse>> {
-        return this.makeRequest('exchange-token', { method: "POST", payload: { token } });
+        const resp = await this.makeRequest(
+            'exchange-token', 
+            { 
+                method: "POST", 
+                payload: { token } 
+            }
+        );
+
+        if (resp?.data.token) {
+            await this.clientInfo(resp.data.token);
+        }
+        return resp;
     }
 
-    static async clientInfo(): Promise<FetchResponse<ClientInfoResponse>> {
-        const token = CookieManager.getCookie("session");
+    static async clientInfo(setToken: string = ""): Promise<FetchResponse<ClientInfoResponse>> {
+        const token = setToken ? setToken : CookieManager.getCookie("session");
         if (token) {
             const cacheClient = await getCacheData('cacheClient', 10);
             if (cacheClient) return cacheClient;
