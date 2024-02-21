@@ -28,7 +28,7 @@
 <img 
     src="/images/cat/cat-preview.webp" 
     draggable="false" 
-    class="m-auto max-w-[320px] {isPulsing ? 'pulse' : ''}" 
+    class="m-auto max-w-[280px] px-5 {isPulsing ? 'pulse' : ''}" 
     alt="Ще трохи..." 
 />
 
@@ -57,7 +57,7 @@
     }
 
     img {
-        transform: scale(.95);
+        transform: scale(1);
         animation: scaleCat .3s ease forwards;
     }
     .pulse {
