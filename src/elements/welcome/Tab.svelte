@@ -20,7 +20,7 @@
     };
 </script>
 
-<Tabbar class="left-0 bottom-1 fixed p-1" labels={true} icons={true} >
+<Tabbar class="left-0 bottom-0 fixed p-1" labels={true} icons={true} >
     <TabbarLink active={activeTab === tabs.home} onClick={() => (selectTab(tabs.home))} label='Картки'>
         <svelte:fragment slot="icon">
             <Icon>
