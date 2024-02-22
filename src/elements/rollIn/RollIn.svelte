@@ -31,12 +31,10 @@
 
 {#if $rollInData.loading === false}
     <div class="m-auto w-auto">
-        <img 
-            src={$rollInData?.qr} 
-            class="w-max m-auto rounded-lg" 
-            draggable="false" 
-            alt="QR-код для авторизації" 
-        />
+        <div
+            class="img m-auto rounded-lg h-[264px] w-[264px]"
+            style="mask-image:url('{ $rollInData?.qr }')"
+        ></div>
     </div>
     <div class="mt-3">
         <Button onClick={goLogin} class="w-max m-auto" clear>Увійти за посиланням</Button>
@@ -56,7 +54,12 @@
         100% { margin-top: 2rem }
     }
 
-    div:has(> img) {
+    .img {
+        background: rgb(197,222,237);
+        background: radial-gradient(circle, rgb(250, 250, 250) 0%, rgb(50, 50, 50) 100%);
+        background-size: cover;
+    }
+    div:has(> .img) {
         transform: scale(.5);
         animation: scaleQR .4s ease forwards;
     }
