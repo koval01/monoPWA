@@ -17,6 +17,8 @@ export default defineConfig({
       manifest: {
         "name": "MonoPWA",
         "short_name": "MonoPWA",
+        "description": "MonoPWA is a minimalistic lightweight version of your favorite Monobank.",
+        "start_url": "./",
         "icons": [
             {
                 "src": "/icons/android-chrome-192x192.png?v=2",
@@ -29,6 +31,11 @@ export default defineConfig({
                 "type": "image/png"
             }
         ],
+        "screenshots" : [{
+          "src": "/icons/screenshot.jpg",
+          "sizes": "1280x802",
+          "type": "image/jpeg"
+        }],
         "theme_color": "#000000",
         "background_color": "#000000",
         "display": "standalone"
