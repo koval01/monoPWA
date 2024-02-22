@@ -56,7 +56,7 @@
 
     .img {
         background: rgb(197,222,237);
-        background: radial-gradient(circle, rgb(250, 250, 250) 0%, rgb(50, 50, 50) 100%);
+        background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(90, 90, 90) 100%);
         background-size: cover;
     }
     div:has(> .img) {
