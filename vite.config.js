@@ -32,7 +32,7 @@ export default defineConfig({
         ],
         "screenshots" : [{
           "src": "/icons/screenshot.jpg",
-          "sizes": "1280x802",
+          "sizes": "800x800",
           "type": "image/jpeg"
         }],
         "theme_color": "#000000",
