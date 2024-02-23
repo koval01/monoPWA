@@ -7,6 +7,8 @@
     import Card from '../card/Card.svelte';
     import Tab from './Tab.svelte';
 
+    import { tabs } from "./tab";
+
     let client: ClientInfoResponse, success: boolean;
 
     const getClient = async () => {
@@ -25,13 +27,19 @@
     $: {
         console.log(client);
     }
+
+    export let tab: string;
 </script>
 
 {#if client}
-    <Card client={client} />
-    <Currency />
+    {#if tab === tabs.home}<Card client={client} />{/if}
+    {#if tab === tabs.currency}<Currency />{/if}
 
     <Tab />
 {:else}
+    {#await new Promise(resolve => setTimeout(resolve, 50))}
+    <!-- Wait -->
+    {:then}
     <Wait success={success} onCall={goRetry} />
+    {/await}
 {/if}

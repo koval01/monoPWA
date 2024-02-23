@@ -24,7 +24,8 @@
 <App theme="ios" class="select-none">
   <Router {url}>
     <div>
-      <Route path="/"><Main /></Route>
+      <Route path="/"><Main tab="/" /></Route>
+      <Route path="/currency"><Main tab="/currency" /></Route>
       <Route patth="*"><NoMatch /></Route>
     </div>
   </Router>

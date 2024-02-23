@@ -19,11 +19,13 @@
       token = $rollInData.token;
       exchangeProcess(token);
     }
+
+    export let tab;
 </script>
   
 <Page>
     {#if $session || sessionValue}
-      <Welcome />
+      <Welcome tab={tab} />
     {:else}
       <Navbar title="MonoBank PWA" large transparent centerTitle />
 

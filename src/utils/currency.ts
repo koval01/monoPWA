@@ -33,7 +33,7 @@ const dataTransformer = (data: Partial<CurrencyArray>[]) => data.map(item => {
 });
 
 export const getData = async (): Promise<void> => {
-    const cacheCurrency = await getCacheData('currencyData', 60);
+    const cacheCurrency = await getCacheData('currencyData', 120);
     if (cacheCurrency) {
         currencyData.set({ currency: cacheCurrency, loading: false });
         return;
@@ -43,12 +43,12 @@ export const getData = async (): Promise<void> => {
     const response = await MonoAPIExtended.currencyInfo();
     let data = response.success ? response.data : [];
 
-    if (!data.length) return;
+    if (!data || !data.length) return;
     data = data.slice(0, 3);
     data = dataTransformer(data);
 
+    if (!data || !data.length) return;
     // Записуємо результат запиту у кеш
     await cacheData('currencyData', data);
-
     currencyData.set({ currency: data, loading: false });
 };

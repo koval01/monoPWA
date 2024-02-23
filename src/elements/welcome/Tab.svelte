@@ -1,22 +1,20 @@
 <script>
     // @ts-nocheck
 
+    import { navigate } from "svelte-routing";
+
     import { Icon, Tabbar, TabbarLink } from "konsta/svelte";
 
     import Cards from "../icons/Cards.svelte";
     import Currency from "../icons/Currency.svelte";
 
-    const tabs = {
-        home: "/", currency: "/currency"
-    };
+    import { tabs } from "./tab";
+
     let activeTab = window.location.pathname;
 
-    const selectTab = (tab = null) => {
-        return; // curently disabled
-
+    const selectTab = (tab = tabs.home) => {
         if (!tab) return;
-        window.location.pathname = tab;
-        activeTab = tab;
+        navigate(tab, { replace: true });
     };
 </script>
 
@@ -28,7 +26,7 @@
             </Icon>
         </svelte:fragment>
     </TabbarLink>
-    <TabbarLink active={activeTab === tabs.currency} onClick={selectTab(tabs.currency)} label="Валюти">
+    <TabbarLink active={activeTab === tabs.currency} onClick={() => (selectTab(tabs.currency))} label="Валюти">
         <svelte:fragment slot="icon">
             <Icon>
                 <Currency class="w-7 h-7 transition-all ease-in-out delay-400" />
