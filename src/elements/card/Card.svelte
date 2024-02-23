@@ -7,44 +7,44 @@
     const translate = (/** @type {string} */ input) =>
         CyrillicToTranslit({ preset: "uk" }).transform(input);
 
-    let accountNumber;
-    const account = (/** @type {{ accounts: any; }} */ client) =>
-        (accountNumber = client.accounts.find(
-            (/** @type {{ type: string; currencyCode: number; }} */ x) =>
-                x.type === "black" && x.currencyCode === 980,
-        ).maskedPan[0]);
-
     let cardActive = false;
 
-    afterUpdate(() => {
-        account(client);
-
-        setTimeout(() => (cardActive = true), 2e2);
-    });
+    afterUpdate(() => { setTimeout(() => (cardActive = true), 2e2) });
 
     export let client;
-
-    // this is demo card element
 </script>
 
 <div class="max-w-[480px] m-auto py-10 px-8">
-    <div class="card black {cardActive ? 'active' : ''}">
+    <!-- <div class="block m-auto max-w-[350px]">
+        <h1>{ accountDisplay?.balance }</h1>
+        <p>Власні кошти: { accountDisplay?.balance - accountDisplay?.creditLimit }</p>
+        <p>Кредитний ліміт: { accountDisplay?.creditLimit }</p>
+    </div> -->
+    {#each client.accounts as account}
+    <div class="card mb-3 {account.type} {cardActive ? 'active' : ''}">
+        {#if !["rebuilding"].includes(account.type)}
         <img
             src="/images/monologo.webp"
-            class="logo bank invert"
+            class="logo bank"
             alt="Логотип на картці"
         />
+        {/if}
         <img
-            src="/images/payment-system/{getCardType(accountNumber)}-logo.webp"
-            class="logo system"
+            src="/images/payment-system/{getCardType(account.maskedPan[0])}-logo.webp"
+            class="logo system { ["white"].includes(account.type) && getCardType(account.maskedPan[0]) === "visa" ? "invert" : "" }"
             alt="Платіжна система"
         />
+        {#if !["eAid", "rebuilding"].includes(account.type)}
         <div class="display name">{translate(client.name)}</div>
+        {/if}
         <div class="display card-number">
-            {accountNumber?.match(/.{1,4}/g)?.join(" ")}
+            {account.maskedPan[0]?.match(/.{1,4}/g)?.join(" ")}
         </div>
+        {#if !["white", "eAid", "rebuilding"].includes(account.type)}
         <div class="display currency-symbol">₴</div>
+        {/if}
     </div>
+    {/each}
 </div>
 
 <style>
@@ -59,6 +59,7 @@
         max-width: 100%;
         height: auto;
         padding-bottom: 60%;
+        background-size: cover;
     }
     .card::before {
         content: "";
@@ -131,5 +132,30 @@
     /* skins */
     .black {
         background: linear-gradient(160deg, #282828 0%, #020202 100%);
+    }
+    .black > .logo.bank {
+        filter: invert(1);
+    }
+
+    .white {
+        background: #fff;
+        color: #000;
+    }
+    .white > .display {
+        color: #000;
+    }
+
+    .eAid {
+        background-image: url(/images/cards/eAid-card.webp);
+    }
+    .eAid > .display {
+        color: #000;
+    }
+
+    .rebuilding {
+        background-image: url(/images/cards/rebuilding-card.webp);
+    }
+    .rebuilding > .display {
+        color: #fff;
     }
 </style>
