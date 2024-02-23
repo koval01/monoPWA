@@ -2,27 +2,17 @@
     import { Block, Preloader } from "konsta/svelte";
     import { afterUpdate, onMount } from "svelte";
 
-    import { generateGreeting } from "../../../utils/time";
+    import { clientNameFormat } from "../../../utils/misc";
     import { getCacheData } from "../../../utils/cache";
-
-    const clientNameFormat = (name: string): string => {
-        if (!name) return "";
-        name = name?.split(" ").pop() ?? 'Незнайомець';
-        return generateGreeting(name);
-    };
 
     let clientName = "";
     let isPulsing = false;
 
     afterUpdate(() => {
-        setTimeout(() => {
-            isPulsing = true;
-        }, 300);
+        setTimeout(() => { isPulsing = true }, 300);
     });
 
-    onMount(async () => {
-        clientName = await getCacheData("cacheClientName");
-    })
+    onMount(async () => { clientName = await getCacheData("cacheClientName") });
 </script>
 
 <img 

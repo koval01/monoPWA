@@ -9,22 +9,16 @@
 
     let success;
 
-    const updateQR = async () => {
-        success = await getQR();
-    }
+    const updateQR = async () => { success = await getQR() }
 
-    onMount(async () => {
-        await updateQR();
-    });
+    onMount(async () => { await updateQR() });
 
     const goRetry = () => {
         success = void 0;
         updateQR();
     }
 
-    $: {
-        if ($rollInData?.requestId) triggerAppOpen($rollInData?.requestId);
-    }
+    $: { if ($rollInData?.requestId) triggerAppOpen($rollInData?.requestId) }
 
     const goLogin = () => window.open($rollInData?.url, "_blank");
 </script>

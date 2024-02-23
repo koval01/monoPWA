@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 
 interface RollInData {
-    requestId: string;
+    requestId?: string;
     token: string | null;
     url: string | null;
     qr: string | null;

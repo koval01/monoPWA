@@ -7,6 +7,7 @@
 
     import Cards from "../icons/Cards.svelte";
     import Currency from "../icons/Currency.svelte";
+    import Preferences from "../icons/Preferences.svelte";
 
     import { tabs } from "./tab";
 
@@ -18,18 +19,25 @@
     };
 </script>
 
-<Tabbar class="left-0 bottom-0 fixed p-1" labels={true} icons={true} >
+<Tabbar class="left-0 bottom-0 fixed p-1 !transition-all ease-in-out delay-400" labels={true} icons={true} >
     <TabbarLink active={activeTab === tabs.home} onClick={() => (selectTab(tabs.home))} label='Картки'>
         <svelte:fragment slot="icon">
             <Icon>
-                <Cards slot="ios" class="w-7 h-7 transition-all ease-in-out delay-400" />
+                <Cards slot="ios" class="w-7 h-7" />
             </Icon>
         </svelte:fragment>
     </TabbarLink>
     <TabbarLink active={activeTab === tabs.currency} onClick={() => (selectTab(tabs.currency))} label="Валюти">
         <svelte:fragment slot="icon">
             <Icon>
-                <Currency class="w-7 h-7 transition-all ease-in-out delay-400" />
+                <Currency class="w-7 h-7" />
+            </Icon>
+        </svelte:fragment>
+    </TabbarLink>
+    <TabbarLink active={activeTab === tabs.preferences} onClick={() => (selectTab(tabs.preferences))} label="Інше">
+        <svelte:fragment slot="icon">
+            <Icon>
+                <Preferences class="w-7 h-7" />
             </Icon>
         </svelte:fragment>
     </TabbarLink>

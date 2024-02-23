@@ -26,6 +26,7 @@
     <div>
       <Route path="/"><Main tab="/" /></Route>
       <Route path="/currency"><Main tab="/currency" /></Route>
+      <Route path="/preferences"><Main tab="/preferences" /></Route>
       <Route patth="*"><NoMatch /></Route>
     </div>
   </Router>

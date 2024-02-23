@@ -120,7 +120,7 @@ export class MonoAPI {
     static async clientInfo(setToken: string = ""): Promise<FetchResponse<ClientInfoResponse>> {
         const token = setToken ? setToken : CookieManager.getCookie("session");
         if (token) {
-            const cacheClient = await getCacheData('cacheClient', 3600);
+            const cacheClient = await getCacheData('cacheClient', 30);
             if (cacheClient) return cacheClient;
             
             const response = await this.makeRequest('request/personal/client-info', { token });

@@ -2,9 +2,11 @@
     import { onMount } from 'svelte';
     import { MonoAPI, type ClientInfoResponse } from '../../utils/mono';
 
-    import Wait from './Wait.svelte';
+    import Preferences from '../preferences/Preferences.svelte';
     import Currency from '../currency/Currency.svelte';
     import Card from '../card/Card.svelte';
+
+    import Wait from './Wait.svelte';
     import Tab from './Tab.svelte';
 
     import { tabs } from "./tab";
@@ -24,16 +26,13 @@
 
     onMount(async () => await getClient())
 
-    $: {
-        console.log(client);
-    }
-
     export let tab: string;
 </script>
 
 {#if client}
     {#if tab === tabs.home}<Card client={client} />{/if}
     {#if tab === tabs.currency}<Currency />{/if}
+    {#if tab === tabs.preferences}<Preferences />{/if}
 
     <Tab />
 {:else}

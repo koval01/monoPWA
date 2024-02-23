@@ -1,3 +1,5 @@
 export const tabs = {
-    home: "/", currency: "/currency"
+    home: "/", 
+    currency: "/currency",
+    preferences: "/preferences"
 }

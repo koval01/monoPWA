@@ -4,11 +4,7 @@
 
     let isLevitating = false;
 
-    afterUpdate(() => {
-        setTimeout(() => {
-            isLevitating = true;
-        }, 300);
-    });
+    afterUpdate(() => { setTimeout(() => { isLevitating = true }, 300) });
 </script>
 
 <img 
