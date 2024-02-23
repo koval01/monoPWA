@@ -47,115 +47,107 @@
     {/each}
 </div>
 
-<style>
-    .card {
-        position: relative;
-        background: rgb(11, 11, 11);
-        border-radius: 1.3rem;
-        overflow: hidden;
-        filter: drop-shadow(30px 10px 24px #000);
-        transform: perspective(580px) rotateX(60deg) scale(.75);
-        transition: 1s cubic-bezier(.5, .07, .1, .9) all;
-        max-width: 100%;
-        height: auto;
-        padding-bottom: 60%;
-        background-size: cover;
-    }
-    .card::before {
-        content: "";
-        position: absolute;
-        top: calc(100% + 10px);
-        left: 0;
-        width: 100%;
-        height: 10px;
-        background: inherit;
-        filter: inherit;
-        transform: translateY(-10px);
-        z-index: -1;
-    }
-    .card.active {
-        transform: rotate(0deg) scale(1) translateY(16px);
-    }
+<style lang="sass">
+    .card
+        position: relative
+        background: rgb(11, 11, 11)
+        border-radius: 1.3rem
+        overflow: hidden
+        filter: drop-shadow(30px 10px 24px #000)
+        transform: perspective(580px) rotateX(60deg) scale(0.75)
+        transition: 1s cubic-bezier(0.5, 0.07, 0.1, 0.9) all
+        max-width: 100%
+        height: auto
+        padding-bottom: 60%
+        background-size: cover
 
-    .logo {
-        position: absolute;
-        height: auto;
-        z-index: 1;
-    }
-    .bank {
-        top: 10%;
-        left: 5%;
-        width: 25%;
-    }
-    .system {
-        right: 5%;
-        bottom: 10%;
-        width: 15%;
-    }
+        &::before
+            content: ""
+            position: absolute
+            top: calc(100% + 10px)
+            left: 0
+            width: 100%
+            height: 10px
+            background: inherit
+            filter: inherit
+            transform: translateY(-10px)
+            z-index: -1
 
-    .display {
-        font-family: "Kode Mono";
-        font-weight: 400;
-        position: absolute;
-        color: #b2b3b7;
-        font-size: 1.2rem;
-        z-index: 1;
-    }
-    .name {
-        bottom: 10%;
-        left: 5%;
-    }
-    .card-number {
-        top: 48%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 1.4rem;
-        letter-spacing: 5px;
-        width: 100%;
-        text-align: center;
-    }
-    .currency-symbol {
-        top: 10%;
-        right: 6%;
-        color: #444;
-    }
+        &.active
+            transform: rotate(0deg) scale(1) translateY(16px)
 
-    @media only screen and (max-width: 768px) {
-        .display {
-            font-size: calc(.75rem + .9vw);
-        }
-        .card-number {
-            font-size: calc(50% + 1.85vw);
-        }
-    }
+    .logo
+        position: absolute
+        height: auto
+        z-index: 1
 
-    /* skins */
-    .black {
-        background: linear-gradient(160deg, #282828 0%, #020202 100%);
-    }
-    .black > .logo.bank {
-        filter: invert(1);
-    }
+    .bank
+        top: 10%
+        left: 5%
+        width: 25%
 
-    .white {
-        background: #fff;
-        color: #000;
-    }
-    .white > .display {
-        color: #000;
-    }
+    .system
+        right: 5%
+        bottom: 10%
+        width: 15%
 
-    .eAid {
-        background-image: url(/images/cards/eAid-card.webp);
-    }
-    .eAid > .display {
-        color: #000;
-    }
+    .display
+        font-family: "Kode Mono"
+        font-weight: 400
+        position: absolute
+        color: #b2b3b7
+        font-size: 1.2rem
+        z-index: 1
 
-    .rebuilding {
-        background-image: url(/images/cards/rebuilding-card.webp);
-    }
-    .rebuilding > .display {
-        color: #fff;
-    }
+    .name
+        bottom: 10%
+        left: 5%
+
+    .card-number
+        top: 48%
+        left: 50%
+        transform: translate(-50%, -50%)
+        font-size: 1.4rem
+        letter-spacing: 5px
+        width: 100%
+        text-align: center
+
+    .currency-symbol
+        top: 10%
+        right: 6%
+        color: #444
+
+    @media only screen and (max-width: 768px)
+        .display
+            font-size: calc(.75rem + .9vw)
+
+        .card-number
+            font-size: calc(50% + 1.85vw)
+
+    /* skins
+    .black
+        background: linear-gradient(160deg, #282828 0%, #020202 100%)
+
+        > .logo.bank
+            filter: invert(1)
+
+    .white
+        background: #fff
+        color: #000
+
+        > .display
+            color: #000
+
+    .eAid
+        background-image: url(/images/cards/eAid-card.webp)
+
+        > .display
+            color: #000
+
+    .rebuilding
+        background-image: url(/images/cards/rebuilding-card.webp)
+
+        > .display
+            color: #fff
+
 </style>
