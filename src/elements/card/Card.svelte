@@ -105,10 +105,13 @@
         left: 5%;
     }
     .card-number {
-        top: 40%;
-        left: 8%;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         font-size: 1.4rem;
         letter-spacing: 5px;
+        width: 100%;
+        text-align: center;
     }
     .currency-symbol {
         top: 10%;
@@ -118,7 +121,10 @@
 
     @media only screen and (max-width: 768px) {
         .display {
-            font-size: 1rem;
+            font-size: calc(.75rem + .9vw);
+        }
+        .card-number {
+            font-size: calc(50% + 1.85vw);
         }
     }
 
