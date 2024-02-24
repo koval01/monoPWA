@@ -2,6 +2,8 @@ import { fetchData } from "./api";
 import { exchangeState } from "../store";
 import { cacheData, getCacheData } from "./cache";
 import { CookieManager } from "./cookies";
+import { translate } from "./misc";
+import { getCardType } from "./card";
 
 interface RequestOptions {
     domain?: string;
@@ -50,12 +52,15 @@ interface AccountInfo {
     id: string;
     sendId: string;
     currencyCode: number;
+    currencySymbol?: string;
     cashbackType: string;
     balance: number;
     creditLimit: number;
     maskedPan: string[];
     type: string;
     iban: string;
+    maskedPanFormatted?: string;
+    maskedPanSystem?: string;
 }
 
 export interface ClientInfoResponse {
@@ -120,11 +125,31 @@ export class MonoAPI {
     static async clientInfo(setToken: string = ""): Promise<FetchResponse<ClientInfoResponse>> {
         const token = setToken ? setToken : CookieManager.getCookie("session");
         if (token) {
-            const cacheClient = await getCacheData('cacheClient', 30);
+            const cacheClient = await getCacheData('cacheClient', 60);
             if (cacheClient) return cacheClient;
             
             const response = await this.makeRequest('request/personal/client-info', { token });
             if (response.error || !response.data) return { success: false };
+
+            const rebuiltAccounts = [];
+            response.data.accounts.forEach((account: AccountInfo) => {
+                account.maskedPan.forEach((maskedPan: string) => {
+                    rebuiltAccounts.push({
+                        ...account,
+                        maskedPan,
+                    });
+                });
+            });
+            response.data.accounts = rebuiltAccounts;
+
+            response.data.latName = translate(response.data.name);
+            response.data.accounts = response.data.accounts.map((account: AccountInfo) => ({
+                ...account,
+                currencySymbol: { 840: "$", 978: "€", 980: "₴" }[account.currencyCode],
+                maskedPanFormatted: account.maskedPan.match(/.{1,4}/g)?.join(" "),
+                maskedPanSystem: getCardType(account.maskedPan)
+            }));
+
             await cacheData('cacheClient', response);
 
             // Зберігаємо у довгостроковий кеш ім'я власника акаунту

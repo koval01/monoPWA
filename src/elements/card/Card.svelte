@@ -1,12 +1,6 @@
 <script>
     import { afterUpdate } from "svelte";
 
-    import CyrillicToTranslit from "cyrillic-to-translit-js";
-    import { getCardType } from "../../utils/card";
-
-    const translate = (/** @type {string} */ input) =>
-        CyrillicToTranslit({ preset: "uk" }).transform(input);
-
     let cardActive = false;
 
     afterUpdate(() => { setTimeout(() => (cardActive = true), 2e2) });
@@ -30,18 +24,16 @@
         />
         {/if}
         <img
-            src="/images/payment-system/{getCardType(account.maskedPan[0])}-logo.webp"
-            class="logo system { ["white"].includes(account.type) && getCardType(account.maskedPan[0]) === "visa" ? "invert" : "" }"
+            src="/images/payment-system/{ account.maskedPanSystem }-logo.webp"
+            class="logo system { ["white"].includes(account.type) && account.maskedPanSystem === "visa" ? "invert" : "" }"
             alt="Платіжна система"
         />
         {#if !["eAid", "rebuilding"].includes(account.type)}
-        <div class="display name">{translate(client.name)}</div>
+        <div class="display name">{ client.latName }</div>
         {/if}
-        <div class="display card-number">
-            {account.maskedPan[0]?.match(/.{1,4}/g)?.join(" ")}
-        </div>
+        <div class="display card-number">{ account.maskedPanFormatted }</div>
         {#if !["white", "eAid", "rebuilding"].includes(account.type)}
-        <div class="display currency-symbol">₴</div>
+        <div class="display currency-symbol">{ account.currencySymbol }</div>
         {/if}
     </div>
     {/each}

@@ -1,3 +1,4 @@
+import CyrillicToTranslit from "cyrillic-to-translit-js";
 import { generateGreeting } from "./time";
 
 export const clientNameFormat = (name: string): string => {
@@ -5,3 +6,6 @@ export const clientNameFormat = (name: string): string => {
     name = name?.split(" ").pop() ?? 'Незнайомець';
     return generateGreeting(name);
 }
+
+export const translate = (input: string) =>
+        CyrillicToTranslit({ preset: "uk" }).transform(input);
